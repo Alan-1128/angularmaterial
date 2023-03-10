@@ -1,4 +1,4 @@
-import { ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import { filter } from 'rxjs';
@@ -22,6 +22,7 @@ export const _filter = (opt: any[], value: any): string[] => {
 })
 export class AppComponent implements OnInit {
   title = 'my-project';
+  @ViewChild('someInput') someInput!: ElementRef;
 
   stateForm = this._formBuilder.group({
     stateGroup: '',
@@ -72,24 +73,17 @@ export class AppComponent implements OnInit {
     console.log(this.stateForm.value);
   }
 
-  prueba2(name:any){
-    // this.stateForm.get('stateGroup').setValue(name['nombre'])
-    this.cd.detectChanges()
-  }
-
-
   ngOnInit() {
     this.stateGroupOptions = this.stateForm.get('stateGroup')!.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterGroup(value || '')),
+      map(value => this._filterGroup(value)),
     );
   }
 
   private _filterGroup(value: string): any[] {
-    if (value) {      
-      return this.stateGroups
-        .map(group => ({letter: group.letter, names: _filter(group.names, value)}))
-        .filter(group => group.names.length > 0);
+    if (value) {
+      let nuevo = this.stateGroups.map(group => ({letter: group.letter, names: _filter(group.names, value)})).filter(group => group.names.length > 0);
+      return nuevo
     }
 
     return this.stateGroups;

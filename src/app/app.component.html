@@ -5,10 +5,10 @@
            matInput
            [value]="stateForm.get('stateGroup').value | personalizado"
            formControlName="stateGroup"
-           [matAutocomplete]="autoGroup">
+           [matAutocomplete]="autoGroup" #someInput>
       <mat-autocomplete #autoGroup="matAutocomplete">
         <mat-optgroup *ngFor="let group of stateGroupOptions | async" [label]="group.letter">
-          <mat-option *ngFor="let name of group.names" [value]="name" (click)="prueba2(name)">
+          <mat-option *ngFor="let name of group.names" [value]="name">
             {{name['nombre']}}
           </mat-option>
       </mat-optgroup>
@@ -16,4 +16,4 @@
   </mat-form-field>
 </form>
 
-<button (click)="prueba()">aqui</button>
+<!-- <button (click)="prueba()">aqui</button> -->
